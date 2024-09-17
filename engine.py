@@ -3,7 +3,7 @@ from typing import Set, Iterable, Any
 from tcod.context import Context
 from tcod.console import Console
 
-from Entity import Entity
+from entity import Entity
 from input_handler import EventHandler
 from game_map import GameMap
    
