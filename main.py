@@ -6,6 +6,7 @@ from engine import Engine
 from game_map import GameMap
 from procgen import generate_dungeon
 
+
 def main() -> None:
     screen_width = 80
     screen_height = 50
@@ -14,7 +15,7 @@ def main() -> None:
     map_height = 45
 
     tileset = tcod.tileset.load_tilesheet(
-        "Python-Projects/RougeGame2/dejavu10x10_gs_tc.png",
+        "dejavu10x10_gs_tc.png",
         32,
         8,
         tcod.tileset.CHARMAP_TCOD,
@@ -27,12 +28,14 @@ def main() -> None:
         y=int(screen_height / 2),
         char="@",
     )
-    npc = Entity(int(screen_width / 2 - 5), int(screen_height / 2), "$", (255, 255, 0))
+    npc = Entity(int(screen_width / 2 - 5),
+                 int(screen_height / 2), "$", (255, 255, 0))
     entities = {npc, player}
 
     game_map = generate_dungeon(map_width, map_height)
 
-    engine = Engine(entites=entities, event_handler=event_handler,game_map=game_map, player=player)
+    engine = Engine(entites=entities, event_handler=event_handler,
+                    game_map=game_map, player=player)
 
     with tcod.context.new_terminal(
         screen_width,
@@ -41,16 +44,15 @@ def main() -> None:
         title="First Rogue-like Game",
         vsync=True,
     ) as context:
-        root_console = tcod.console.Console(screen_width, screen_height, order="F")
+        root_console = tcod.console.Console(
+            screen_width, screen_height, order="F")
         while True:
 
-            
             engine.render(console=root_console, context=context)
 
             events = tcod.event.wait()
 
             engine.handle_events(events)
-
 
 
 if __name__ == "__main__":
