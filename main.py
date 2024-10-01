@@ -32,10 +32,7 @@ def main() -> None:
         y=int(screen_height / 2),
         char="@",
     )
-    npc = Entity(int(screen_width / 2 - 5),
-                 int(screen_height / 2), "$", (255, 255, 0))
-    entities = {npc, player}
-
+    
     game_map = generate_dungeon(
        max_rooms=max_rooms,
        room_min_size=room_min_size,
@@ -44,7 +41,7 @@ def main() -> None:
        map_height=map_height,
        player=player
     )
-    engine = Engine(entites=entities, event_handler=event_handler,
+    engine = Engine(event_handler=event_handler,
                     game_map=game_map, player=player)
 
     with tcod.context.new_terminal(

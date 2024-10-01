@@ -1,0 +1,72 @@
+9/30 Plan
+
+
+### **Class Title: Roguelike Development - Placing Enemies and Player Interaction**
+**Duration:** 50 minutes
+
+---
+
+### **Learning Objectives:**
+- Understand the process of modifying the `GameMap` class to manage entities.
+- Place enemies in a dungeon during map generation.
+- Set up basic interaction between the player and enemies.
+
+### **Class Outline:**
+
+1. **Introduction to the Lesson (5 minutes)**
+   - **Overview:** Briefly introduce the concept of placing enemies in a roguelike game. Explain why moving entities to `GameMap` is necessary for better scalability and how this will allow for player and enemy interaction.
+   - **Objective:** State that students will learn how to add enemies to their roguelike and allow the player to interact with them.
+
+2. **Modifying the GameMap Class (10 minutes)**
+   - **Explanation:**
+     - Discuss why entities (like enemies) should be stored in `GameMap` rather than `Engine` (to track entities by map and enable easier floor transitions).
+   - **Hands-on Coding:**
+     - Guide students through modifying the `GameMap` class to accept entities. Highlight the changes that are needed:
+       - Updating `__init__()` to accept entities as an argument.
+       - Modifying the `Engine` class to remove references to `entities`.
+     - **Code Along:** Ensure each student follows along and makes the changes in their code.
+
+3. **Placing Enemies in the Dungeon (15 minutes)**
+   - **Explanation:**
+     - Introduce the concept of placing enemies in randomly generated rooms.
+     - Explain creating the `max_monsters_per_room` variable and using it to control how many enemies spawn in a room.
+   - **Hands-on Coding:**
+     - Walk students through modifying `generate_dungeon()` to use the `place_entities()` function.
+     - **Exercise:** Write the `place_entities()` function together, focusing on:
+       - Generating random locations within rooms.
+       - Deciding whether to place an Orc or Troll based on probability.
+       - Ensuring enemies don't overlap by using conditions.
+
+4. **Setting Up Player Interaction (10 minutes)**
+   - **Explanation:**
+     - Discuss the importance of handling collisions between the player and enemies, introducing the `blocks_movement` property.
+     - Explain the use of `get_blocking_entity_at_location()` to determine if a tile contains an enemy.
+   - **Hands-on Coding:**
+     - Guide students through updating the `MovementAction` class to check for blocking entities and modify the code to use a new `BumpAction` that decides between moving or attacking.
+     - **Exercise:** Update the action handlers to include the `MeleeAction` to "kick" enemies and display a message in the console.
+
+5. **Testing and Review (5 minutes)**
+   - **Testing:**
+     - Run the project to see enemies placed in rooms.
+     - Test moving into enemies and ensuring the player cannot walk through them.
+     - Demonstrate that a console message appears when attempting to "kick" an enemy.
+   - **Review Questions:**
+     - Why did we move entities from `Engine` to `GameMap`?
+     - How does `place_entities()` prevent overlapping enemies?
+     - What is the purpose of `BumpAction` and how does it differentiate between moving and attacking?
+
+6. **Wrap-Up and Q&A (5 minutes)**
+   - Summarize key concepts: placing enemies, storing entities in `GameMap`, and creating basic interactions.
+   - Allow students to ask any questions.
+   - Assign a short follow-up task: "Modify the spawning logic to add a new type of enemy with a unique character and color."
+
+### **Materials Needed:**
+- **Computer with Python and necessary libraries installed (e.g., tcod).**
+- **Starter code from the previous class session.**
+
+---
+
+### **Notes for the Instructor:**
+- Make sure students understand how storing entities within `GameMap` makes code maintenance easier.
+- Emphasize testing after each significant change to prevent students from getting lost due to minor errors.
+- Allocate time for students to run and see the output of their changes; visual feedback is crucial for learning game programming.
