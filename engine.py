@@ -10,6 +10,7 @@ from game_map import GameMap
 # if TYPE_CHECKING:
 from entity import Entity
 
+
 class Engine:
     def __init__(
         self, 

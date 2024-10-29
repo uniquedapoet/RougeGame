@@ -5,6 +5,8 @@ from input_handler import EventHandler
 from engine import Engine
 from game_map import GameMap
 from procgen import generate_dungeon
+import copy 
+import entity_factories
 
 
 def main() -> None:
@@ -18,6 +20,8 @@ def main() -> None:
     room_min_size = 6
     max_rooms = 30
 
+    max_monsters_per_room = 3
+
     tileset = tcod.tileset.load_tilesheet(
         "dejavu10x10_gs_tc.png",
         32,
@@ -26,14 +30,10 @@ def main() -> None:
     )
     event_handler = EventHandler()
 
-    player = Entity(
-        color=(255, 255, 255),
-        x=int(screen_width / 2),
-        y=int(screen_height / 2),
-        char="@",
-    )
+    player = copy.deepcopy(entity_factories.player)
     
     game_map = generate_dungeon(
+       max_monsters_per_room=max_monsters_per_room,
        max_rooms=max_rooms,
        room_min_size=room_min_size,
        room_max_size=room_max_size,
