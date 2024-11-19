@@ -40,7 +40,7 @@
 4. **Setting Up Player Interaction (10 minutes)**
    - **Explanation:**
      - Discuss the importance of handling collisions between the player and enemies, introducing the `blocks_movement` property.
-     - Explain the use of `get_blocking_entity_at_location()` to determine if a tile contains an enemy.
+     - Explain the use of `get_blocking_enemy_at_location()` to determine if a tile contains an enemy.
    - **Hands-on Coding:**
      - Guide students through updating the `MovementAction` class to check for blocking entities and modify the code to use a new `BumpAction` that decides between moving or attacking.
      - **Exercise:** Update the action handlers to include the `MeleeAction` to "kick" enemies and display a message in the console.

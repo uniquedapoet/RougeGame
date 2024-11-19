@@ -5,7 +5,9 @@ import tcod
 from typing import Tuple, Iterator, List, TYPE_CHECKING
 
 import entity_factories
-from entity import Entity
+
+# if TYPE_CHECKING:
+from engine import Engine
 
 
 class RectangularRoom:
@@ -79,6 +81,7 @@ def tunnel_between(
     for x, y in tcod.los.bresenham((corner_x, corner_y), (x2, y2)).tolist():
         yield x, y
 
+
 def generate_dungeon(
         max_monsters_per_room: int,
         max_rooms: int,
@@ -86,9 +89,10 @@ def generate_dungeon(
         room_max_size: int,
         map_width: int,
         map_height: int,
-        player: Entity
+        engine: Engine,
 ) -> GameMap:
-    dungeon = GameMap(map_width, map_height, entities=[player])
+    player = engine.player
+    dungeon = GameMap(engine, map_width, map_height, entities=[player])
 
     rooms: List[RectangularRoom] = []
 
@@ -107,7 +111,8 @@ def generate_dungeon(
         dungeon.tiles[new_room.inner] = tiles_types.floor
 
         if len(rooms) == 0:
-            player.x, player.y = new_room.center
+            player.place(*new_room.center, dungeon)
+            # player.x, player.y = new_room.center
         else:
             for x, y in tunnel_between(rooms[-1].center, new_room.center):
                 dungeon.tiles[x, y] = tiles_types.floor
