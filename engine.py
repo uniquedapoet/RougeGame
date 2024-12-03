@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 from tcod.context import Context
 from tcod.console import Console
 from tcod.map import compute_fov
+import random
 
 from input_handler import EventHandler
 
@@ -30,7 +31,10 @@ class Engine:
         # If a tile is visible it should be added to the explored array
         self.game_map.explored |= self.game_map.visible
 
-
+    def handle_enemy_turns(self) -> None:
+        for entity in set(self.game_map.actors) - {self.player}:
+            if entity.ai and random.random() < 0.5:
+                entity.ai.perform()
 
     def render(self, console: Console, context: Context) -> None:
         self.game_map.render(console)

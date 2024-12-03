@@ -91,6 +91,11 @@ class MovementAction(ActionWithDirection):
         self.entity.move(self.dx, self.dy)
 
 
+class WaitAction(Action):
+    def perform(self) -> None:
+        pass
+
+
 class BumpAction(ActionWithDirection):
     def perform(self) -> None:
         if self.blocking_entity:
