@@ -7,19 +7,23 @@ from tcod.console import Console
 from tcod.map import compute_fov
 import random
 
-from input_handler import EventHandler
+from input_handler import MainGameEventHandler
+from render_functions import render_bar
+from message_log import MessageLog
 
 if TYPE_CHECKING:
-    from entity import Entity  
+    from entity import Actor  
     from game_map import GameMap
+    from input_handler import EventHandler
 
 
 class Engine:
     game_map: GameMap
 
-    def __init__(self, player: Entity):
-        self.event_handler = EventHandler(self)
+    def __init__(self, player: Actor):
+        self.event_handler = MainGameEventHandler(self)
         self.player = player
+        self.message_log = MessageLog()
 
     def update_fov(self) -> None:
         """Recompute the visible area based on the player's point of view"""
@@ -38,5 +42,15 @@ class Engine:
 
     def render(self, console: Console, context: Context) -> None:
         self.game_map.render(console)
+
+        self.message_log.render(console, x=21, y=45, width=40, height=5)
+
+        render_bar(
+            console=console,
+            current_value=self.player.fighter.hp,
+            maximum_value=self.player.fighter.max_hp,
+            total_width=self.player.fighter.max_hp,
+        )
+
         context.present(console)
         console.clear()

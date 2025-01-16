@@ -1,5 +1,6 @@
 from components.ai import HostileEnemy
 from components.fighter import Fighter
+import color
 from entity import Actor
 
 player = Actor(
@@ -15,7 +16,7 @@ orc = Actor(
    color=(63, 127, 63),
    name="Orc",
    ai_cls=HostileEnemy,
-   fighter=Fighter(hp=10, defense=6, power=3),
+   fighter=Fighter(hp=10, defense=0, power=3),
 )
 
 troll = Actor(

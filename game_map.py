@@ -54,9 +54,15 @@ class GameMap:
             default=tiles_types.SHROUD
         )
 
-        for entity in self.entities:
+        eneities_sorted_for_rendering = sorted(
+            self.entities, key=lambda x: x.render_order.value
+        )
+
+        for entity in eneities_sorted_for_rendering:
             if self.visible[entity.x, entity.y]:
-                console.print(entity.x, entity.y, entity.char, fg=entity.color)
+                console.print(
+                    x=entity.x, y=entity.y, string=entity.char, fg=entity.color
+                )
 
     def get_blocking_enemy_at_location(
             self, location_x: int, location_y: int
