@@ -16,7 +16,8 @@ class BaseAI(Action, BaseComponent):
 
     def perform(self) -> None:
         raise NotImplementedError()
-    
+
+
     def get_path_to(self,dest_x: int, dest_y: int
                     ) -> List[Tuple[int, int]]:
         """
@@ -25,9 +26,9 @@ class BaseAI(Action, BaseComponent):
         If there is no valid path then return an empty list.
         """
 
-        cost = np.array(self.entity.gamemap.tiles["walkable"], dtype=np.int8)
+        cost = np.array(self.entity.game_map.tiles["walkable"], dtype=np.int8)
 
-        for entity in self.entity.gamemap.entities:
+        for entity in self.entity.game_map.entities:
             # Check that an entity blovkd movement and cost inst zero
             if entity.blocks_movement and cost[entity.x, entity.y]:
                 # Add to the cost of a blocked position

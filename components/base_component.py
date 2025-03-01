@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 class BaseComponent:
     entity: Entity
-
+    
     @property
     def engine(self) -> Engine:
-        return self.entity.gamemap.engine
+        return self.entity.game_map.engine

@@ -8,7 +8,7 @@ from tcod.map import compute_fov
 import random
 
 from input_handler import MainGameEventHandler
-from render_functions import render_bar
+from render_functions import render_bar, render_names_at_mouse_location
 from message_log import MessageLog
 
 if TYPE_CHECKING:
@@ -24,6 +24,7 @@ class Engine:
         self.event_handler = MainGameEventHandler(self)
         self.player = player
         self.message_log = MessageLog()
+        self.mouse_location = (0, 0)
 
     def update_fov(self) -> None:
         """Recompute the visible area based on the player's point of view"""
@@ -40,7 +41,7 @@ class Engine:
             if entity.ai and random.random() < 0.5:
                 entity.ai.perform()
 
-    def render(self, console: Console, context: Context) -> None:
+    def render(self, console: Console) -> None:
         self.game_map.render(console)
 
         self.message_log.render(console, x=21, y=45, width=40, height=5)
@@ -52,5 +53,4 @@ class Engine:
             total_width=self.player.fighter.max_hp,
         )
 
-        context.present(console)
-        console.clear()
+        render_names_at_mouse_location(x=21,y=44,console=console,engine=self)

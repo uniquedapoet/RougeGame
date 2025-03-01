@@ -1,4 +1,4 @@
-from typing import List, Reversible, Tuple
+from typing import List, Reversible, Tuple, Iterable
 import textwrap
 
 import tcod
@@ -45,7 +45,16 @@ class MessageLog:
         self.render_messages(console, x, y, width, height, self.messages)
     
     @staticmethod
+    def wrap(string: str, width:int) -> Iterable[str]:
+        """Return a Wrapped Text Message"""
+        for line in string.splitlines():
+            yield from textwrap.wrap(
+                line, width, expand_tabs=True,
+            )
+
+    @classmethod
     def render_messages(
+        cls,
         console: tcod.Console,
         x: int,
         y: int,
@@ -60,7 +69,7 @@ class MessageLog:
         y_offset = height - 1
 
         for messenge in reversed(messages):
-            for line in reversed(textwrap.wrap(messenge.full_text, width)):
+            for line in reversed(list(cls.wrap(messenge.full_text, width))):
                 console.print(x=x, y=y + y_offset, string=line, fg=messenge.fg)
                 y_offset -= 1
                 if y_offset < 0:
