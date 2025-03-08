@@ -5,18 +5,16 @@ import numpy as np
 import tcod
 
 from actions import Action, MeleeAction, MovementAction, WaitAction
-from components.base_component import BaseComponent
 
 if TYPE_CHECKING:
     from entity import Actor
 
 
-class BaseAI(Action, BaseComponent):
+class BaseAI(Action):
     entity: Actor
 
     def perform(self) -> None:
         raise NotImplementedError()
-
 
     def get_path_to(self,dest_x: int, dest_y: int
                     ) -> List[Tuple[int, int]]:
@@ -26,9 +24,9 @@ class BaseAI(Action, BaseComponent):
         If there is no valid path then return an empty list.
         """
 
-        cost = np.array(self.entity.game_map.tiles["walkable"], dtype=np.int8)
+        cost = np.array(self.entity.gamemap.tiles["walkable"], dtype=np.int8)
 
-        for entity in self.entity.game_map.entities:
+        for entity in self.entity.gamemap.entities:
             # Check that an entity blovkd movement and cost inst zero
             if entity.blocks_movement and cost[entity.x, entity.y]:
                 # Add to the cost of a blocked position

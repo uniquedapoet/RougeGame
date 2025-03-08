@@ -19,7 +19,7 @@ class Action:
         """
         Return the engine this action belongs to.
         """
-        return self.entity.game_map.engine
+        return self.entity.gamemap.engine
 
     def perform(self) -> None:
         """
