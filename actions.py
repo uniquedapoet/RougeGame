@@ -1,15 +1,16 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Optional, Tuple
+import color
 
 if TYPE_CHECKING:
-    from Entity import Entity
+    from Entity import Entity, Actor
     from engine import Engine
 
 
 
 class Action:
-    def __init__(self, entity: Entity) -> None:
+    def __init__(self, entity: Actor) -> None:
         super().__init__()
         self.entity = entity
 
@@ -35,7 +36,7 @@ class Action:
 
 
 class ActionWithDirection(Action):
-    def __init__(self, entity: Entity, dx: int, dy: int):
+    def __init__(self, entity: Actor, dx: int, dy: int):
         super().__init__(entity)
 
         self.dx = dx
@@ -54,7 +55,9 @@ class ActionWithDirection(Action):
         Return the blocking entity at this actions destination
         """
         return self.engine.game_map.get_blocking_enemy_at_location(*self.dest_xy)
-
+    @property
+    def target_actor(self) -> Optional[Actor]:
+        return self.engine.game_map.get_actor_at_location(*self.dest_xy)
     def perform(self) -> None:
         raise NotImplementedError()
 
@@ -65,11 +68,23 @@ class MeleeAction(ActionWithDirection):
     Inherits from ActionWithDirection
     """
     def perform(self) -> None:   
-        target = self.blocking_entity
+        target = self.target_actor
 
-        if not target:
-            return
-        print(f"You kick the {target.name}, much to its annoyance!")
+        damage = self.entity.fighter.power - target.fighter.defense
+
+        attack_desc = f"{self.entity.name.capitalize()} attacks {target.name}"
+
+        if self.entity is self.engine.player:
+            attack_color = color.player_atk
+        else:
+            attack_color = color.enemy_atk
+            
+
+        if damage > 0:
+            self.engine.message_log.add_message(text = f"{attack_desc} for {damage} hit points", fg = attack_color)
+            target.fighter.hp -= damage
+        else:
+            self.engine.message_log.add_message(text = f"{attack_desc} but does no damage", fg = attack_color)
 
 
 class EscapeAction(Action):
@@ -90,10 +105,13 @@ class MovementAction(ActionWithDirection):
 
         self.entity.move(self.dx, self.dy)
 
+class WaitAction(Action):
+    def perform(self) -> None:
+        pass
 
 class BumpAction(ActionWithDirection):
     def perform(self) -> None:
-        if self.blocking_entity:
+        if self.target_actor:
             return MeleeAction(self.entity, self.dx, self.dy).perform()
         else:
             return MovementAction(self.entity, self.dx, self.dy).perform()
