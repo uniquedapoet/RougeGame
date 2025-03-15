@@ -46,8 +46,8 @@ class ActionWithDirection(Action):
         """
         Returns this entities destination x, y coordinates
         """
-        return self.entity.x + self.dx, self.entity.y + self.dy 
-   
+        return self.entity.x + self.dx, self.entity.y + self.dy
+
     @property
     def blocking_entity(self) -> Optional[Entity]:
         """
@@ -71,6 +71,7 @@ class MeleeAction(ActionWithDirection):
     Perform a melee action in the given direction
     Inherits from ActionWithDirection
     """
+
     def perform(self) -> None:
         target = self.target_actor
 
@@ -93,6 +94,7 @@ class MeleeAction(ActionWithDirection):
                 f"{attack_desc} but does no damage.", attack_color
             )
 
+
 class EscapeAction(Action):
     def perform(self) -> None:
         raise SystemExit()
@@ -107,7 +109,7 @@ class MovementAction(ActionWithDirection):
         if not self.engine.game_map.tiles["walkable"][dest_x, dest_y]:
             return
         if self.engine.game_map.get_blocking_enemy_at_location(dest_x, dest_y):
-            return              
+            return
 
         self.entity.move(self.dx, self.dy)
 
@@ -123,4 +125,3 @@ class BumpAction(ActionWithDirection):
             return MeleeAction(self.entity, self.dx, self.dy).perform()
         else:
             return MovementAction(self.entity, self.dx, self.dy).perform()
-        

@@ -16,7 +16,7 @@ class BaseAI(Action):
     def perform(self) -> None:
         raise NotImplementedError()
 
-    def get_path_to(self,dest_x: int, dest_y: int
+    def get_path_to(self, dest_x: int, dest_y: int
                     ) -> List[Tuple[int, int]]:
         """
         Compute and return a path to the target position.
@@ -40,10 +40,11 @@ class BaseAI(Action):
 
         pathfinder.add_root((self.entity.x, self.entity.y))
 
-        path: List[List[int]] = pathfinder.path_to((dest_x, dest_y))[1:].tolist()
+        path: List[List[int]] = pathfinder.path_to((dest_x, dest_y))[
+            1:].tolist()
 
         return [(index[0], index[1]) for index in path]
-    
+
 
 class HostileEnemy(BaseAI):
     def __init__(self, entity: Actor):
@@ -67,5 +68,5 @@ class HostileEnemy(BaseAI):
             return MovementAction(
                 self.entity, dest_x - self.entity.x, dest_y - self.entity.y
             ).perform()
-        
+
         return WaitAction(self.entity).perform()

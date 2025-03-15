@@ -2,7 +2,7 @@ import tcod
 
 from engine import Engine
 from procgen import generate_dungeon
-import copy 
+import copy
 import entity_factories
 import color
 
@@ -26,21 +26,21 @@ def main() -> None:
         8,
         tcod.tileset.CHARMAP_TCOD,
     )
-    
+
     player = copy.deepcopy(entity_factories.player)
 
     engine = Engine(player=player)
-    
+
     engine.game_map = generate_dungeon(
-       max_monsters_per_room=max_monsters_per_room,
-       max_rooms=max_rooms,
-       room_min_size=room_min_size,
-       room_max_size=room_max_size,
-       map_width=map_width,
-       map_height=map_height,
-       engine=engine,
+        max_monsters_per_room=max_monsters_per_room,
+        max_rooms=max_rooms,
+        room_min_size=room_min_size,
+        room_max_size=room_max_size,
+        map_width=map_width,
+        map_height=map_height,
+        engine=engine,
     )
-    
+
     engine.update_fov()
 
     engine.message_log.add_message(
@@ -62,7 +62,6 @@ def main() -> None:
             context.present(root_console)
 
             engine.event_handler.handle_events(context)
-
 
 
 if __name__ == "__main__":
